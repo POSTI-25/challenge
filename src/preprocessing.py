@@ -1,19 +1,16 @@
 import pandas as pd
 
 def load_data(filepath: str) -> pd.DataFrame:
-    """Load Pokémon dataset from CSV file."""
+
     df = pd.read_csv(filepath)
     return df
 
 def preprocess_data(df: pd.DataFrame) -> tuple:
-    """Clean dataset, create target column, and split features/labels."""
-    # Create binary target for Mega Evolution
+
     df["Mega_Evolution"] = df["Name"].apply(lambda x: 1 if "Mega" in x else 0)
 
-    # Drop irrelevant columns safely
     df = df.drop(columns=["Name", "Type 1", "Type 2", "Generation", "Legendary"], errors="ignore")
 
-    # Split into features and target
     X = df.drop(columns=["Mega_Evolution"])
     y = df["Mega_Evolution"]
     return X, y
